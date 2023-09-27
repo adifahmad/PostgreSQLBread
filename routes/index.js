@@ -47,9 +47,18 @@ router.post('/register', async function(req, res, next) {
     return res.redirect('/register')
   } 
 
+  if(!email){
+    req.flash('failedInfo',`email must be filled`)
+    return res.redirect('/register')
+  }
+
+  if(!password){
+    req.flash('failedInfo',`password must be filled`)
+    return res.redirect('/register')
+  }
+
   const {rows: emails} = await db.query ('SELECT * FROM users WHERE email = $1', [email])
 
-  console.log(emails)
 
   if(emails.length > 0){
     req.flash('failedInfo', `Email already exist`)
@@ -57,8 +66,6 @@ router.post('/register', async function(req, res, next) {
   } 
 
   const hash = bcrypt.hashSync(password, saltRounds);
-
-  console.log(hash)
 
   await db.query('INSERT INTO users(email, password) VALUES ($1, $2)',[email,hash])
 

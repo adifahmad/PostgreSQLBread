@@ -35,8 +35,8 @@
           <div class="col-sm-10">
             <select type="text" name="complete" class="form-control" value="<%= query.complete %>">
               <option disabled selected>-select complete-</option>
-              <option value="true" <%= query.complete =='true' ? ' selected' : '' %>>Yes</option>
-              <option value="false" <%= !query.complete =='false' ? ' selected' : '' %>>Not Yet</option>
+              <option value="true" <%= query.complete =='true' ? ' selected' : '' %>>Done</option>
+              <option value="false" <%= query.complete =='false' ? ' selected' : '' %>>Not Yet</option>
             </select>
           </div>
         </div>
@@ -45,14 +45,14 @@
           <div class="col-sm-10">
             <div class="form-check">
               <input class="form-check-input" type="radio" value="OR" name="radioOperator" id="gridRadios1"
-                value="option1" checked>
+                value="option1" <%= query.radioOperator == 'OR' ? ' checked' : ''%> checked >
               <label class="form-check-label" for="gridRadios1">
                 OR
               </label>
             </div>
             <div class="form-check">
               <input class="form-check-input" type="radio" value="AND" name="radioOperator" id="gridRadios2"
-                value="option2">
+                value="option2" <%= query.radioOperator == 'AND' ? ' checked' : ''%>>
               <label class="form-check-label" for="gridRadios2">
                 AND
               </label>
@@ -86,7 +86,7 @@
                 <%= row.tittle %>
               </td>
               <td style="background-color: red;">
-                <%= row.complete ? "Yes" : "Not Yet" %>
+                <%= row.complete ? "Done" : "Not Yet" %>
               </td>
               <td style="background-color: red;">
                 <%= moment(row.deadline).format('MMMM Do YYYY, h:mm:ss a')%>
@@ -122,7 +122,7 @@
                     <%= row.tittle %>
                   </td>
                   <td>
-                    <%= row.complete ? "Yes" : "Not Yet" %>
+                    <%= row.complete ? "Done" : "Not Yet" %>
                   </td>
                   <td>
                     <%= moment(row.deadline).format('MMMM Do YYYY, h:mm:ss a')%>
