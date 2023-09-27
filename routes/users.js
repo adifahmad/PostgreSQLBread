@@ -19,7 +19,6 @@ module.exports = function (db) {
         const queries = []
         const params = []
         const avatar = rows[0].avatar
-        console.log(avatar)
 
 
         if (tittle) {
@@ -46,11 +45,11 @@ module.exports = function (db) {
         let sql = `SELECT COUNT(*) AS total FROM todos WHERE userid = ${usersid}`
 
         if (queries.length > 0) {
-            sql += ` ${queries.join(` ${radioOperator} `)}`
+            sql += ` and ${queries.join(` ${radioOperator} `)}`
         }
 
         console.log(sql)
-        
+        console.log(params)
         db.query(sql, params, (err, { rows: data }) => {
             const url = req.url
             const total = data[0].total
@@ -60,7 +59,7 @@ module.exports = function (db) {
 
 
             if (queries.length > 0) {
-                sql += ` ${queries.join(` ${radioOperator} `)}`
+                sql += ` and (${queries.join(` ${radioOperator} `)})`
             }
             
             sql += ` ORDER BY ${sortby} ${sort}`
