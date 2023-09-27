@@ -1,0 +1,204 @@
+<%- include('../partials/header.ejs') %>
+  <div>
+    <%- include('../partials/alert.ejs') %>
+    <div class="groupTittle">
+      <h1>
+        <center class="title">PostgreSQLBread(Browse, Read, Edit, Add, Delete)</center>
+      </h1>
+    </div>
+    <div class="groupForm">
+
+      <form action="" method="get">
+        <input type="hidden" name="page" value="1">
+        <div class="row mb-3">
+          <label for="inputtitle" class="col-sm-2 col-form-label">Tittle</label>
+          <div class="col-sm-10">
+            <input type="text" name="tittle" class="form-control" id="inputtitle" value="<%= query.tittle %>"
+              placeholder="Insert your title">
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="deadline" class="col-sm-2 col-form-label"> Deadline </label>
+          <div class="col-sm-10">
+            <div class="row g-3">
+              <div class="col">
+                <input type="date" name="startdate" class="form-control" value="<%= query.startdate %>">
+              </div>
+              <div class="col">
+                <input type="date" name="enddate" class="form-control" value="<%= query.enddate %>">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+          <label for="complete" class="col-sm-2 col-form-label"> Complete </label>
+          <div class="col-sm-10">
+            <select type="text" name="complete" class="form-control" value="<%= query.complete %>">
+              <option disabled selected>-select complete-</option>
+              <option value="true" <%= query.complete =='true' ? ' selected' : '' %>>Yes</option>
+              <option value="false" <%= !query.complete =='false' ? ' selected' : '' %>>Not Yet</option>
+            </select>
+          </div>
+        </div>
+        <fieldset class="row mb-3">
+          <legend class="col-form-label col-sm-2 pt-0">Operator</legend>
+          <div class="col-sm-10">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" value="OR" name="radioOperator" id="gridRadios1"
+                value="option1" checked>
+              <label class="form-check-label" for="gridRadios1">
+                OR
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" value="AND" name="radioOperator" id="gridRadios2"
+                value="option2">
+              <label class="form-check-label" for="gridRadios2">
+                AND
+              </label>
+            </div>
+          </div>
+        </fieldset>
+        <button type="submit" class="btn btn-info"><img src="/images/search.svg"></button>
+        <a href="/users" class="btn btn-warning"><img src="/images/arrow-repeat.svg"></a>
+      </form>
+
+      <hr>
+
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>Tittle <a href="/users/?page=1&sortby=tittle&sort=asc"><img src="/images/caret-up-fill.svg"></a> <a href="/users?page=1&sortby=tittle&sort=desc"><img src="/images/caret-down-fill.svg"></a></th>
+            <th>Complete <a href="/users?page=1&sortby=complete&sort=asc"><img src="/images/caret-up-fill.svg"></a> <a href="/users?page=1&sortby=complete&sort=desc"><img src="/images/caret-down-fill.svg"></a></th>
+            <th>Deadline <a href="/users?page=1&sortby=deadline&sort=asc"><img src="/images/caret-up-fill.svg"></a> <a href="/users?page=1&sortby=deadline&sort=desc"><img src="/images/caret-down-fill.svg"></a></th>
+            <th>actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% data.forEach((row, index)=>{ %>
+           <% if(new Date(`${row.deadline}`).getTime() < new Date().getTime() && row.complete == false ){ %>
+            <tr>
+              <td style="background-color: red;">
+                <%= index + offset + 1 %>
+              </td>
+              <td style="background-color: red;">
+                <%= row.tittle %>
+              </td>
+              <td style="background-color: red;">
+                <%= row.complete ? "Yes" : "Not Yet" %>
+              </td>
+              <td style="background-color: red;">
+                <%= moment(row.deadline).format('MMMM Do YYYY, h:mm:ss a')%>
+              </td>
+              <td style="background-color: red;"><a href="/users/update/<%= row.id %>" class="btn btn-success"><img src="/images/pencil-fill.svg"></a>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<%= row.id %>"><img
+                    src="/images/trash-fill.svg"></button>
+                    <div class="modal fade" id="deleteModal<%= row.id %>" tabindex="-1" aria-labelledby="deleteModal<%= row.id %>Label" aria-hidden="true">
+                      <div class="modal-dialog">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="deleteModal<%= row.id %>Label">Delete Confirmation</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <p> Apakah kamu yakin akan menghapus '<%= row.tittle %>'?</p>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                            <a href="/users/delete/<%= row.id %>" class="btn btn-warning">Yes</a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+              </td>
+            </tr>
+            <% } else {%>
+                <tr>
+                  <td>
+                    <%= index + offset + 1 %>
+                  </td>
+                  <td>
+                    <%= row.tittle %>
+                  </td>
+                  <td>
+                    <%= row.complete ? "Yes" : "Not Yet" %>
+                  </td>
+                  <td>
+                    <%= moment(row.deadline).format('MMMM Do YYYY, h:mm:ss a')%>
+                  </td>
+                  <td><a href="/users/update/<%= row.id %>" class="btn btn-success"><img src="/images/pencil-fill.svg"></a>
+                    <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal<%= row.id %>"><img
+                        src="/images/trash-fill.svg"></button>
+                        <div class="modal fade" id="deleteModal<%= row.id %>" tabindex="-1" aria-labelledby="deleteModal<%= row.id %>Label" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="deleteModal<%= row.id %>Label">Delete Confirmation</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                <p> Apakah kamu yakin akan menghapus '<%= row.tittle %>'?</p>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                <a href="/users/delete/<%= row.id %>" class="btn btn-warning">Yes</a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                  </td>
+                </tr>
+                <% } %>
+            <% }) %>
+        </tbody>
+      </table>
+    </div>
+    <div class="groupButton">
+      <div class="row">
+        <div class="col-sm-10">
+          <a href="/users/add/<%= usersid %>" class="btn btn-primary"><img src="/images/plus-lg.svg"></a>
+        </div>
+        <div class="col">
+          <nav aria-label="Page navigation example">
+            <ul class="pagination">
+              <li class="page-item">
+                <% if(page> 1){ %>
+                  <a class="page-link"
+                    href="/users<%= url.includes('page=')? url.replace(`page=${page}`, `page=${page - 1}`) : `/?page=${page - 1}` %>"
+                    aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                  <% } %>
+              </li>
+              <% for(let i=1; i <=pages; i++){ %>
+                <% if (page==i) { %>
+                  <li class="page-item active"><a class="page-link"
+                      href="/users<%= url.includes('page=')? url.replace(`page=${page}`, `page=${i}`) : `/?page=${i}` %>">
+                      <%= i %>
+                    </a></li>
+                  <% } else { %>
+                    <li class="page-item"><a class="page-link"
+                        href="/users<%= url.includes('page=')? url.replace(`page=${page}`, `page=${i}`) : `/?page=${i}` %>">
+                        <%= i %>
+                      </a></li>
+                    <% } %>
+                      <% } %>
+                        <li class="page-item">
+                          <% if(page < pages){ %>
+                            <a class="page-link"
+                              href="/users<%= url.includes('page=')? url.replace(`page=${page}`, `page=${Number(page) + 1}`) : `/?page=${page + 1}` %>"
+                              aria-label="Next">
+                              <span aria-hidden="true">&raquo;</span>
+                            </a>
+                            <% } %>
+                        </li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <%- include('../partials/footer.ejs') %>

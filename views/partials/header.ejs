@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostgreeSQL BREAD (Browse, Read, Edit, Add, Delete)</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="/javascripts/main.js"></script>
+</head>
+
+
+<body>
+    <script src="/stylesheets/bootstrap.min.css"></script>
+    <div class="logoutPage">
+        <div class="row">
+            <div class="col-sm-10"><a href="/users/upload/<%= usersid %>"><img src="/images/<%= avatar ? avatar : 'originalavatar.png' %>" %>" class="rounded-circle" alt="avatar" width="80" height="80"></a>&nbsp;<h2><%= user.email %></h2></div>
+            <div class="col"><a href="/logout" class="btn btn-secondary"><img src="/images/box-arrow-right.svg">Log Out</a></div>
+          </div>
+    </div>

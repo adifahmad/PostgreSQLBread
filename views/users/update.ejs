@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PostgreeSQL BREAD (Browse, Read, Edit, Add, Delete)</title>
+    <link rel="stylesheet" href="/stylesheets/bootstrap.min.css">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+    <script src="/helpers/util.js"></script>
+</head>
+
+<body>
+    <script src="/stylesheets/bootstrap.min.css"></script>
+    
+        <div class="groupTittle">
+            <h1>
+                <center class="title">Updating Data</center>
+            </h1>
+        </div>
+        <div class="groupForm">
+
+            <form action="" method="post">
+                <div class="row mb-3">
+                  <label for="inputtitle" class="col-sm-2 col-form-label">Tittle</label>
+                  <div class="col-sm-10">
+                    <input type="text" name="tittle" class="form-control" id="inputtitle" value="<%= item.tittle %>">
+                  </div>
+                </div>
+                <div class="row mb-3">
+                <label for="deadline" class="col-sm-2 col-form-label"> Deadline </label>
+                <div class="col-sm-10">
+                <input type="date" name="deadline" class="form-control" value="<%= moment(item.deadline).format('YYYY-MM-DD') %>">
+            </div>
+          </div>
+          <div class="row mb-3">
+            <label for="gridCheck1" class="col-sm-2 col-form-label">Complete</label>
+            <div class="col-sm-10">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="gridCheck1" name="complete" <%= item.complete ? ' checked' : '' %>>
+                <label class="form-check-label" name="complete" for="gridCheck1">
+                  Done
+                </label>
+              </div>
+            </div>
+          </div>
+        <div class="groupButton">
+            <button type="submit" class="btn btn-info"><img src="/images/floppy-fill.svg"></button>
+             <a href="/users" class="btn btn-warning"><img src="/images/arrow-repeat.svg"></a>
+        </div>
+        </form>
+
+</body>
+
+</html>
