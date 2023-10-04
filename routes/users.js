@@ -28,13 +28,13 @@ module.exports = function (db) {
 
         if (startdate && enddate) {
             params.push(startdate, enddate)
-            queries.push(`deadline BETWEEN $${params.length - 1} and $${params.length}`)
+            queries.push(`deadline BETWEEN $${params.length - 1} and $${params.length}::TIMESTAMP + INTERVAL '1 DAY - 1 SECOND'`)
         } else if (startdate) {
             params.push(startdate)
             queries.push(`deadline >= $${params.length}`)
         } else if (enddate) {
             params.push(enddate)
-            queries.push(`deadline <= $${params.length}`)
+            queries.push(`deadline <= $${params.length}::TIMESTAMP + INTERVAL '1 DAY - 1 SECOND'`)
         }
 
         if (complete) {
@@ -48,8 +48,6 @@ module.exports = function (db) {
             sql += ` and ${queries.join(` ${radioOperator} `)}`
         }
 
-        console.log(sql)
-        console.log(params)
         db.query(sql, params, (err, { rows: data }) => {
             const url = req.url
             const total = data[0].total
@@ -69,19 +67,18 @@ module.exports = function (db) {
             sql += ` LIMIT $${params.length - 1} OFFSET $${params.length}`
 
             console.log(sql)
-
             db.query(sql, params, (err, { rows }) => {
                 if (err) return res.send(err)
                 res.render('users/list', { data: rows, query: req.query, pages, offset, page, url, moment, usersid, user: req.session.user, failedInfo : req.flash('failedInfo'), successInfo : req.flash('successInfo'), sortby, sort, avatar})
-                
+    
             })
         })
     })
         })
 
 
-    router.get('/upload/:id', function (req, res) {
-        res.render('users/upload')
+    router.get('/upload/:id', isLoggedin, function (req, res) {
+        res.render('users/upload', {avatar : req.session.user.avatar})
     })
 
     router.post('/upload/:id', function (req, res) {

@@ -29,7 +29,7 @@
       <div class="row mb-3">
         <label for="avatar" class="col-sm-2 col-form-label">Preview</label>
         <div class="col-sm-10">
-            <img id="blah" src="/images/originalavatar.png" alt="defaultavatar" width="300px" height="300px"/>
+            <img id="blah" src="/images/<%= avatar ? avatar : 'originalavatar.png' %>" alt="defaultavatar" width="300px" height="300px"/>
             <script> 
                 imgInp.onchange = evt => {
                     const [file] = imgInp.files
