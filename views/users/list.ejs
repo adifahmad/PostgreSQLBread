@@ -70,32 +70,10 @@
       <table class="table table-striped">
         <thead>
           <tr>
-            <th>No.</th>
-            
-            <th>Tittle <% if(sortby == 'tittle' && sort == 'asc'){ %> 
-              <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=asc&sortby=tittle`) : `?page=1&sort=asc&sortby=tittle` %>"><img src="/images/caret-up-fill.svg"></a> <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=desc&sortby=tittle`) : `?page=1&sort=desc&sortby=tittle` %>"></a>
-            <% }else if(sortby == 'tittle' && sort == 'desc'){ %>
-              <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=asc&sortby=tittle`) : `?page=1&sort=asc&sortby=tittle` %>"></a> <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=desc&sortby=tittle`) : `?page=1&sort=desc&sortby=tittle` %>"><img src="/images/caret-down-fill.svg"></a>
-            <% }else{ %>
-              <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=asc&sortby=tittle`) : `?page=1&sort=asc&sortby=tittle` %>"><img src="/images/caret-up-fill.svg"></a> <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=desc&sortby=tittle`) : `?page=1&sort=desc&sortby=tittle` %>"><img src="/images/caret-down-fill.svg"></a>
-            <% } %>
-            </th>
-            <th>Complete <% if(sortby == 'complete' && sort == 'asc'){ %>
-              <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=asc&sortby=complete`) : `?page=1&sort=asc&sortby=complete` %>"><img src="/images/caret-up-fill.svg"></a> <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=desc&sortby=complete`) : `?page=1&sort=desc&sortby=complete` %>"></a> 
-              <% }else if(sortby == 'complete' && sort == 'desc'){ %>
-              <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=asc&sortby=complete`) : `?page=1&sort=asc&sortby=complete` %>"></a> <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=desc&sortby=complete`) : `?page=1&sort=desc&sortby=complete` %>"><img src="/images/caret-down-fill.svg"></a>
-              <% }else{ %>
-              <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=asc&sortby=complete`) : `?page=1&sort=asc&sortby=complete` %>"><img src="/images/caret-up-fill.svg"></a> <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=desc&sortby=complete`) : `?page=1&sort=desc&sortby=complete` %>"><img src="/images/caret-down-fill.svg"></a>
-              <% } %>
-            </th>
-            <th>Deadline <% if(sortby == 'deadline' && sort == 'asc'){ %>
-              <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=asc&sortby=deadline`) : `?page=1&sort=asc&sortby=deadline` %>"><img src="/images/caret-up-fill.svg"></a> <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=desc&sortby=deadline`) : `?page=1&sort=desc&sortby=deadline` %>"></a>
-              <% }else if(sortby == 'deadline' && sort == 'desc'){ %>
-                <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=asc&sortby=deadline`) : `?page=1&sort=asc&sortby=deadline` %>"></a> <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=desc&sortby=deadline`) : `?page=1&sort=desc&sortby=deadline` %>"><img src="/images/caret-down-fill.svg"></a>
-              <% }else{ %>
-                <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=asc&sortby=deadline`) : `?page=1&sort=asc&sortby=deadline` %>"><img src="/images/caret-up-fill.svg"></a> <a href="/users<%= url.includes(`sort=${sort}&sortby=${sortby}`)? url.replace(`sort=${sort}&sortby=${sortby}`, `sort=desc&sortby=deadline`) : `?page=1&sort=desc&sortby=deadline` %>"><img src="/images/caret-down-fill.svg"></a>
-              <% } %>
-            </th>
+            <th>No.</th>      
+            <th>Tittle <a style="color:black;" href="/users<%= url.replace(`sortby=${sortby}`, 'sortby=tittle').replace(`sort=${sort}`, `sort=${sort == 'desc' ? 'asc' : 'desc'}`) %>"><i class="fa-solid fa-<%= sortby == 'tittle' ? sort=='desc' ?  'sort-down' : 'sort-up' : 'sort' %>"></i></a></th>
+            <th>Complete <a style="color:black;" href="/users<%= url.replace(`sortby=${sortby}`, 'sortby=complete').replace(`sort=${sort}`, `sort=${sort == 'desc' ? 'asc' : 'desc'}`) %>"><i class="fa-solid fa-<%= sortby == 'complete' ? sort=='desc' ?  'sort-down' : 'sort-up' : 'sort' %>"></i></a></th>
+            <th>Deadline <a style="color: black;" href="/users<%= url.replace(`sortby=${sortby}`, 'sortby=deadline').replace(`sort=${sort}`, `sort=${sort == 'desc' ? 'asc' : 'desc'}`) %>"><i class="fa-solid fa-<%= sortby == 'deadline' ? sort=='desc' ?  'sort-down' : 'sort-up' : 'sort' %>"></i></a></th>
             <th>actions</th>
           </tr>
         </thead>

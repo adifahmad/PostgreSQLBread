@@ -10,7 +10,7 @@ const { isLoggedin } = require('../helpers/util.js');
 module.exports = function (db) {
 
     router.get('/', isLoggedin, (req, res) => {
-        const { page = 1, tittle, startdate, enddate, deadline, complete, radioOperator, sortby = "id", sort = "DESC" } = req.query
+        const { page = 1, tittle, startdate, enddate, deadline, complete, radioOperator, sortby = "id", sort = "desc" } = req.query
         const { usersid } = req.session.user
         const limit = 5
         const offset = (page - 1) * 5
@@ -49,7 +49,7 @@ module.exports = function (db) {
         }
 
         db.query(sql, params, (err, { rows: data }) => {
-            const url = req.url
+            const url = req.url == '/' ? `/?page=${page}&sortby=${sortby}&sort=${sort}` : req.url
             const total = data[0].total
             const pages = Math.ceil(total / limit)
 
@@ -69,6 +69,7 @@ module.exports = function (db) {
             console.log(sql)
             db.query(sql, params, (err, { rows }) => {
                 if (err) return res.send(err)
+                console.log(url);
                 res.render('users/list', { data: rows, query: req.query, pages, offset, page, url, moment, usersid, user: req.session.user, failedInfo : req.flash('failedInfo'), successInfo : req.flash('successInfo'), sortby, sort, avatar})
     
             })
